@@ -3,7 +3,6 @@
 #
 
 export RAILS_ENV=production
-export APPLIANCE=true
 export HOME=${HOME:-/root}
 # Force ExecJS to use node
 export EXECJS_RUNTIME='Node'
@@ -12,10 +11,11 @@ export MALLOC_ARENA_MAX=1
 # Location of certificates and provider keys
 export KEY_ROOT=/var/www/miq/vmdb/certs
 
-[[ -s /etc/default/evm_ruby ]] && source /etc/default/evm_ruby
-[[ -s /etc/default/evm_bundler ]] && source /etc/default/evm_bundler
-[[ -s /etc/default/evm_postgres ]] && source /etc/default/evm_postgres
-source /etc/default/evm_production
+evm_optional_files="appliance container"
+for file in $evm_optional_files; do [[ -s /etc/default/evm_$file ]] && source /etc/default/evm_$file; done
+
+evm_required_files="ruby bundler postgres production"
+for file in $evm_required_files; do source /etc/default/evm_$file; done
 
 # Force locale
 export LANGUAGE=en_US.UTF-8
