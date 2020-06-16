@@ -11,11 +11,8 @@ export MALLOC_ARENA_MAX=1
 # Location of certificates and provider keys
 export KEY_ROOT=/var/www/miq/vmdb/certs
 
-evm_optional_files="appliance container"
-for file in $evm_optional_files; do [[ -s /etc/default/evm_$file ]] && source /etc/default/evm_$file; done
-
-evm_required_files="ruby bundler postgres production"
-for file in $evm_required_files; do source /etc/default/evm_$file; done
+evm_files="build ruby bundler postgres production"
+for file in $evm_files; do source /etc/default/evm_$file; done
 
 # Force locale
 export LANGUAGE=en_US.UTF-8
